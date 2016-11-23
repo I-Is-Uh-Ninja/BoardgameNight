@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Add an event</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src='../js/jquery.validate.min.js'></script>
+        <script src="../js/addEvent.js"></script>
+    </head>
+    <body>
+        <div>
+            <a href='index.html'>Back to homepage</a>
+            <p id='error'></p>
+            <form id="addEventForm" method='POST' action='../php/addEvent.php'>
+                <table>
+                    <tr>
+                        <td>Title</td>
+                        <td><input id='title' type="text" name="title" value="" maxlength="45"/></td>
+                    </tr>
+                    <tr>
+                        <td><b>Place</b></td><td></td>
+                    </tr>
+                    <tr>
+                        <td>Select an existing place</td>
+                        <td><select id="placeSelect" name="town_id">
+                            <option value="0" selected>Select a town</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td>or enter a custom address</td>
+                        <td><textarea id="placeText" name='place' cols="20" rows="4"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Date and time</td>
+                        <td><input id='date' type='datetime-local' name='date' /></td>
+                    </tr>
+                    <tr>
+                        <td>Registration deadline</td>
+                        <td><input id='deadline' type='datetime-local' name='deadline'/></td>
+                    </tr>
+                    <tr>
+                        <td>Notes</td>
+                        <td><textarea id='notes' name='notes' cols='20' rows='4' maxlength='80'></textarea></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type='button' id='addEventBtn' value='Add event'/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

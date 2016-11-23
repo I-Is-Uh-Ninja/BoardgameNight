@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Add user</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../js/jquery-3.1.0.js"></script>
+        <script src='../js/jquery.validate.min.js'></script>
+        <script src="../js/addUser.js"></script>
+    </head>
+    <body>
+        <div>
+            <span style="color:red">* = required</span>
+            <p id="error"></p>
+            <form id="addUserForm" method="POST" action='../php/addUser.php'>
+                <table>
+                    <tr>
+                        <td>Name <span style="color:red">*</span></td>
+                        <td><input type="text" id='username' name="username" required maxlength='25' value=""/></td>
+                    </tr>
+                    <tr>
+                        <td>E-mail <span style="color:red">*</span></td>
+                        <td><input type="email" id='email' name="email" required maxlength='80' value=""/></td>
+                    </tr>
+                    <tr>
+                        <td>User-level <span style="color:red">*</span></td>
+                        <td><select id='level' name="level" required size="3">
+                                <option value="1">Admin</option>
+                                <option value="2">Host</option>
+                                <option value="3" selected>Player</option>
+                            </select></td>
+                    </tr>
+                    <tr>
+                        <td>Diet/allergies</td>
+                        <td><textarea id='diet' name="diet" rows="4" cols="20" maxlength="80"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Car</td>
+                        <td><input type="text" id='car' name="car" placeholder="yes (amount of people)" maxlength="25" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td></td><td><input type="button" id="addUserBtn" value="Add user"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Add an address</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../js/jquery-3.1.0.js"></script>
+        <script src="../js/jquery.validate.min.js"></script>
+        <script src="../js/addTown.js"></script>
+    </head>
+    <body>
+        <div>
+            <a href='index.html'>Back to homepage</a>
+            <p id='error'></p>
+            <form id="addTownForm">
+                <table>
+                    <tr>
+                        <td>Street</td>
+                        <td><input type="text" id='street' name="street" value="" required maxlength='51'/></td>
+                        <td>Number</td>
+                        <td><input type='text' id='number' name='number' value='' required maxlength="10"/></td>
+                    </tr>
+                    <tr>
+                        <td>Zip-code</td>
+                        <td><input type='text' id='zipcode' name='zipcode' value='' required minlength="6" maxlength="6"/></td>
+                    </tr>
+                    <tr>
+                        <td>Town</td>
+                        <td><input type="text" id='place' name="place" value="" required maxlength='51'/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type='button' id='addTownBtn' value='Add town'/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

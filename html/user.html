@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>User details</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../js/jquery-3.1.0.js"></script>
+        <script src="../js/jquery.validate.min.js"></script>
+        <script src="../js/user.js"></script>
+    </head>
+    <body>
+        <a href='index.html'>Back to homepage</a>
+        <div>
+            <p id='success'></p>
+            <p id='error'></p>
+            <form id='editUserForm' method='POST' action='../php/updateUser.php'>
+                <table>
+                    <tr>
+                        <td>Name: </td>
+                        <td><input id='username' name='username' type='text' value='' required maxlength="25"/></td>
+                    </tr>
+                    <tr>
+                        <td>E-mail: </td>
+                        <td><input id='email' name='email' type='email' value='' required maxlength="80"/></td>
+                    </tr>
+                    <tr>
+                        <td>Password: </td>
+                        <td><input id='password' name='password' type='password' value='' required maxlength="30" minlength="6"/></td>
+                    </tr>
+                    <tr>
+                        <td>Diet/allergies: </td>
+                        <td><textarea id='diet' name='diet' maxlength="80" rows='4' cols='20'></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Car: </td>
+                        <td><input id='car' name='car' type='text' value='' maxlength="25"/></td>
+                    </tr>
+                    <tr>
+                        <td></td><td><input type='button' id='editUserBtn' value='Edit data'/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

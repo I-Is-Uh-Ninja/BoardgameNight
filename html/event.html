@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Event</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../js/jquery-3.1.0.js"></script>
+        <script src="../js/event.js"></script>
+    </head>
+    <body>
+        <div>
+            <a href="index.html">Back to agenda</a>
+            <h1 id="eventTitle"></h1>
+            <h3 id="eventDate"></h3>
+            <div>
+                <p id="eventInfo"></p>
+            </div>
+            <form id="dinnerForm">
+                <h4>Eating dinner?</h4>
+                <input type="radio" name="dinner" value="1" checked/>Yes<br>
+                <input type="radio" name="dinner" value="0"/>No<br>
+                <input type="submit" id="signup" value="Sign up"/>
+            </form>
+            <p id="error"></p>
+            <table id="playerTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Eating dinner?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
