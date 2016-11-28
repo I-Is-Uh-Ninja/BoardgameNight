@@ -14,11 +14,7 @@ $(document).on("click", "#deleteEvent", function(event){
 function deleteEvent(){
     $.post(url + "deleteEvent.php", {event_id: eventId}, function(data){
         if(data.success){
-            alert("Success!");
             window.location.reload();
-        }
-        else{
-            alert("Couldn't delete event!");
         }
     }, "json");
 }
@@ -81,7 +77,8 @@ function addEventData(data){
     
     $("#eventInfo").append("Deadline for signing up: " + eventInfo.deadline);
     if(eventInfo.host_id == getCookie("user")){
-        $("#eventTitle").before("<a id='editEvent' href='addEvent.html?eventId=" + eventId + "'>Edit event</a>");
+        $("#eventTitle").before("<a href='sendMail.html' id='sendMail'>Send mail to players</a>");
+        $("#sendMail").after("<a id='editEvent' href='addEvent.html?eventId=" + eventId + "'>Edit event</a>");
         $("#editEvent").after("<input type='button' id='deleteEvent' value='Delete event'/>");
     }
     

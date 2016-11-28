@@ -1,0 +1,8 @@
+Hello [username],
+
+<br><br>Welcome! You have been signed up for boardgamenight.nl. The address that this e-mail has been sent to is used for logging in, along with this password: [password]. Go to boardgamenight.nl to see the next boardgame nights and days, and sign up for them. We also highly recommend changing the password once you're there! Just click the "Edit user data"-button, and fill in your new password!
+<br>If you did not want to sign up for boardgamenight.nl, please click <a href='http://boardgamenight.nl/deactivateUser.html'>here.</a>
+
+<br><br>Sincerely,
+
+<br><br>Boardgamenight.nl

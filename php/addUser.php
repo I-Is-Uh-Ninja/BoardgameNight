@@ -1,54 +1,63 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "in070194";
-        $dbname = "boardgamenight";
-        $port = "3306";
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname, $port);
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-        $sql = "INSERT INTO user (username, password, email, level_id, diet, car) VALUES(?,?,?,?,?,?);";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssiss", $username, $password, $email, $levelId, $diet, $car);
-        $username = $_POST["username"];
-        $password = date("dmY");
-        $email = $_POST["email"];
-        $levelId = $_COOKIE["level"];
-        $diet = $_POST["diet"] == "" ? null : $_POST["diet"];
-        $car = $_POST["car"] == "" ? null : $_POST["car"];
-        
-        if ($stmt->execute() === true){
-            echo "<p>New user created successfully.";
-            $to = $_POST["email"];
-            $txt = "Hello ".$_POST["username"]."!\n\nYou have been registered as a user for boardgamenight.nl!"
-                    ."\nYour can login with this e-mail address and password."
-                    ."\nYour current password is: ".$password.". We advice you to change this to something safer."
-                    ."\n\nIf you don't want to be registered, click here: http://boardgamenight.nl/removeUser/".$conn->insert_id;
-            $header = "From: iannijhuis@gmail.com";
-            echo "<br><a href='mailto:".$to."?subject=Registration boardgamenight.nl&body=".$txt
-                    ."'>Click here to send a mail to notify them.</a></p>";
+<?php
+require("../lib/class.phpmailer.php");
+require("../lib/class.smtp.php");
+require("../lib/class.phpmaileroauthgoogle.php");
+
+$servername = "localhost";
+$username = "root";
+$password = "in070194";
+$dbname = "boardgamenight";
+$port = "3306";
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname, $port);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "INSERT INTO user (username, password, email, level_id, diet, car) VALUES(?,?,?,?,?,?);";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("sssiss", $username, $cryptPassword, $email, $levelId, $diet, $car);
+$username = $_POST["username"];
+$randPassword = substr(md5(rand()), 0, 7);
+$cryptPassword = password_hash($randPassword, PASSWORD_BCRYPT);
+$email = $_POST["email"];
+$levelId = $_COOKIE["level"];
+$diet = $_POST["diet"] == "" ? null : $_POST["diet"];
+$car = $_POST["car"] == "" ? null : $_POST["car"];
+
+$success = $stmt->execute();
+$stmt->close();
+$conn->close();
+if($success){
+    $mailBody = file_get_contents("../signup_mail_text.txt");
+    if($mailBody != ""){
+        $mailBody = str_replace("[username]", $username, $mailBody);
+        $mailBody = str_replace("[password]", $randPassword, $mailBody);
+        //Send email
+        $mail = new PHPMailer(); // create a new object
+        $mail->IsSMTP(); // enable SMTP
+        $mail->SMTPDebug = 2; // debugging: 1 = errors and messages, 2 = messages only
+        $mail->SMTPAuth = true; // authentication enabled
+        $mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 465; // or 587
+        $mail->IsHTML(true);
+        $mail->Username = "iannijhuis@gmail.com";
+        $mail->Password = "rzypkuoayzejrfix";
+        $mail->SetFrom("iannijhuis@gmail.com");
+        $mail->Subject = "Sign-up for boardgamenight.nl";
+        $mail->Body = $mailBody;
+        $mail->AddAddress($email);
+        if($mail->Send()){
+            echo " Mail sent to $email ! <a href='../html/index.html'>Click here to go to homepage</a>";
         }
         else{
-            echo "<p class='error'>User not created! Error: ".$conn->error."</p>";
-            echo "<br><a href='../html/addUser.html'>Click here to go back</a>";
+            echo "Couldn't send mail: ".$mail->ErrorInfo;
         }
-        $stmt->close();
-        $conn->close();
-        ?>
-    </body>
-</html>
+    }
+}
+else{
+    echo "Couldn't add user!";
+}
+

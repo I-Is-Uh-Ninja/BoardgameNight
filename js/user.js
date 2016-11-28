@@ -1,13 +1,59 @@
 var userId = 0;
 var levelId = 0;
 var url = "http://localhost:800/BoardgameNight/php/";
+var savedPassword = "";
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
 
 $(document).ready(function(){
-    userId = getCookie("user");
+    var tempUser = getCookie("user");
+    var userLevel = 0;
+    if(tempUser != ""){
+        userLevel = getCookie("level");
+        var urlUserId = getUrlParameter("userId");
+        if(userLevel == 1 && urlUserId != null){
+            userId = urlUserId;
+            $("#username").attr("disabled", "true");
+            $("#editPassword").attr("disabled", "true");
+            $("#email").attr("disabled", "true");
+            $("#diet").attr("disabled", "true");
+            $("#car").attr("disabled", "true");
+        }
+        else{
+            userId = tempUser;
+        }
+    }
+    if(userLevel == 1){
+        $("#levelRow").html('<td>Level:</td><td><select id="level" name="level" required size="3"><option value="1">Admin</option>'
+                +'<option value="2">Host</option><option value="3">Player</option></select></td>');
+    }
     getUserData();
     $("#editUserBtn").click(function(event){
         if($("#editUserForm").valid()){
             updateUser();
+        }
+    });
+    $("#editPassword").change(function(){
+        if(this.checked){
+            $("#password").val("");
+            $("#passwordRow").removeAttr("hidden");
+        }
+        else{
+            $("#passwordRow").attr("hidden","hidden");
+            $("#password").val(savedPassword);
         }
     });
 });
@@ -15,11 +61,13 @@ $(document).ready(function(){
 function getUserData(){
     $.get(url + "getUser.php", {userId: userId}, function(data){
         $("#username").val(data.username);
-        $("#password").val(data.password);
         $("#email").val(data.email);
-        $("#diet").text(data.diet);
+        $("#password").val(data.password);
+        $("#diet").val(data.diet);
         $("#car").val(data.car);
+        savedPassword = data.password;
         levelId = data.level_id;
+        $("option[value="+data.level_id+"]").attr("selected", "selected");
     }, "json");
 }
 
@@ -30,8 +78,8 @@ function updateUser(){
         data: formToJs(),
         dataType: "json",
         success: function(data){
-            window.location.reload();
-            $("#success").text("Successfully updated!");
+            alert("Successfully updated!");
+            window.location.href="index.html";
         },
         error: function(something, status, errorThrown){
             $("#error").text("Couldn't update data: " + errorThrown + "\nStatus: " + status);
@@ -40,12 +88,15 @@ function updateUser(){
 }
 
 function formToJs(){
+    if(getCookie("level") == 1){
+        levelId = $("#level :selected").val();
+    }
     return {
         user_id: userId,
         username: $("#username").val(),
-        password: $("#password").val(),
         email: $("#email").val(),
-        diet: $("#diet").text(),
+        password: $("#password").val(),
+        diet: $("#diet").val(),
         car: $("#car").val(),
         level_id: levelId
     };

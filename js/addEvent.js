@@ -30,13 +30,13 @@ $(document).on("click", "#addEventBtn", function(){
     }
 });
 
-function getTownsByUser(){
+function getPlacesByUser(){
     $.ajax({
         type: 'GET',
-        url: url + "getUserTowns.php",
+        url: url + "getUserPlaces.php",
         dataType: "json",
         success: function(data){
-            addTowns(data);
+            addPlaces(data);
         },
         error: function(jqXHR, textStatus, errorThrown){
             //alert("Couldn't get towns: " + errorThrown);
@@ -44,9 +44,9 @@ function getTownsByUser(){
     });
 }
 
-function addTowns(data){
+function addPlaces(data){
     $.each(data, function(i, obj){
-        $("#placeSelect").append("<option value='" + obj.town_id + "'>" + obj.street + " " + obj.number + ", " + obj.name + "</option>");
+        $("#placeSelect").append("<option value='" + obj.place_id + "'>" + obj.street + " " + obj.number + ", " + obj.name + "</option>");
     });
 }
 
@@ -78,9 +78,9 @@ function addEventData(data){
     $("#deadline").val(eventDeadline);
     $("#notes").val(eventInfo.notes);
     $("#placeText").val(eventInfo.place);
-    var townId = eventInfo.town_id
-    if(townId != 0){
-        $("option[value='"+townId+"']").attr("selected", "selected");
+    var placeId = eventInfo.place_id
+    if(placeId != 0){
+        $("option[value='"+placeId+"']").attr("selected", "selected");
     }
 }
 
@@ -145,7 +145,7 @@ function formToJs(){
         date: $("input[name='date']").val(),
         deadline: $("input[name='deadline']").val(),
         notes: $("#notes").val(),
-        town_id: $("#placeSelect :selected").val()
+        place_id: $("#placeSelect :selected").val()
     };
 }
 

@@ -13,9 +13,15 @@ if ($conn->connect_error) {
 
 $sql = "UPDATE user SET username=?, password=?, email=?, level_id=?, diet=?, car=? WHERE user_id=?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssissi", $username, $password, $email, $levelId, $diet, $car, $userId);
+$stmt->bind_param("sssissi", $username, $cryptPassword, $email, $levelId, $diet, $car, $userId);
 $username = $_POST["username"];
-$password = $_POST["password"];
+$userpass = $_POST["password"];
+if(strpos($userpass, '$2y$') === false){
+    $cryptPassword = password_hash($userpass, PASSWORD_BCRYPT);
+}
+else{
+    $cryptPassword = $userpass;
+}
 $email = $_POST["email"];
 $levelId = $_POST["level_id"];
 $userId = $_POST["user_id"];

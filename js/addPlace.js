@@ -1,27 +1,24 @@
 var url = "http://localhost:800/BoardgameNight/php/";
+var message = "";
 
 $(document).ready(function(){
-    $("#addTownBtn").click(function(){
-        if($("#addTownForm").valid()){
+    $("#addPlaceBtn").click(function(){
+        if($("#addPlaceForm").valid()){
             if(postForm()){
                 window.location.href="../html/index.html";
             }
             else{
-                $("#error").text("Couldn't add town!");
+                $("#error").text("Couldn't add place: " + message);
             }
         }
     });
 });
 
 function postForm(){
-    $.post(url + "addTown.php", formToJs(), function(data){
-        if(data.success !== undefined){
-            return data.success;
-        }
-        else {
-            return true;
-        }
-    });
+    $.post(url + "addPlace.php", formToJs(), function(data){
+        message = data.general_message;
+        return data.success;
+    }, "json");
 }
 
 function formToJs(){
@@ -29,11 +26,11 @@ function formToJs(){
         street: $("#street").val(),
         number: $("#number").val(),
         zipcode: $("#zipcode").val(),
-        place: $("#place").val()
+        town: $("#town").val()
     };
 }
 
-$("#addTownForm").validate({
+$("#addPlaceForm").validate({
     rules: {
         street: {
             required: true,
@@ -48,7 +45,7 @@ $("#addTownForm").validate({
             maxlength: 6,
             minlength: 6
         },
-        place: {
+        town: {
             required: true,
             maxlength: 51
         }
@@ -67,7 +64,7 @@ $("#addTownForm").validate({
             maxlength: jQuery.validator.format("Zip-code must be {0} characters long"),
             minlength: jQuery.validator.format("Zip-code must be {0} characters long")
         },
-        place: {
+        town: {
             required: "Please fill in a town name",
             maxlength: jQuery.validator.format("Town name cannot be longer than {0} characters")
         }

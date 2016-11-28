@@ -15,7 +15,7 @@ function addMenu(){
         $("#menubar").empty();
         $("#menubar").append("<input type='button' id='logout' value='Logout'/>");
         $("#menubar").append("<a href='user.html'>Edit user data</a>");
-        $("#menubar").append("<a href='addTown.html'>Add town</a>");
+        $("#menubar").append("<a href='addPlace.html'>Add place</a>");
         getAllEventsForUser();
         if(level === "1" || level === "2"){
             $("#menubar").append("<a href='addEvent.html'>Add event</a>");
@@ -95,6 +95,7 @@ function displayEvents(data){/*
         });
     }
     else{
+        $("#agendaTable").attr("class","table-hover");
         $.each(data, function(i, obj){
             $("#agendaBody").append("<tr id='" + obj.event_id + "' onclick='selectEvent("+obj.event_id+");'><td>" + obj.title + "</td><td>" + obj.date + "</td></tr>");
         });

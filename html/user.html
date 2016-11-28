@@ -20,6 +20,7 @@ and open the template in the editor.
             <p id='error'></p>
             <form id='editUserForm' method='POST' action='../php/updateUser.php'>
                 <table>
+                    <tr id="levelRow"></tr>
                     <tr>
                         <td>Name: </td>
                         <td><input id='username' name='username' type='text' value='' required maxlength="25"/></td>
@@ -29,8 +30,12 @@ and open the template in the editor.
                         <td><input id='email' name='email' type='email' value='' required maxlength="80"/></td>
                     </tr>
                     <tr>
+                        <td>Edit password?</td>
+                        <td><input type="checkbox" id="editPassword"/></td>
+                    </tr>
+                    <tr id="passwordRow" hidden="hidden">
                         <td>Password: </td>
-                        <td><input id='password' name='password' type='password' value='' required maxlength="30" minlength="6"/></td>
+                        <td><input id='password' name='password' type='password' value="" required maxlength="61" minlength="6"/></td>
                     </tr>
                     <tr>
                         <td>Diet/allergies: </td>

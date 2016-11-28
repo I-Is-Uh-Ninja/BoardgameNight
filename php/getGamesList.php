@@ -10,19 +10,22 @@ $conn = new mysqli($servername, $username, $password, $dbname, $port);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-$userId = $_COOKIE["user"];
-$sql = "SELECT ut.*, t.*  FROM user_has_town ut INNER JOIN town t ON ut.town_id = t.town_id WHERE ut.user_id=?";
+$sql = "SELECT gl.*, g.* FROM game_list gl INNER JOIN game g ON gl.game_id=g.game_id WHERE gl.event_id=?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $userId);
+$stmt->bind_param("i", $eventId);
+$eventId = $_GET["eventId"];
 $stmt->execute();
 
 $result = $stmt->get_result();
-$town_array = array();
-if($result->num_rows>0){
+$gameList = array();
+if(!$result){
+    echo "null";
+}
+else{
     while($row = $result->fetch_assoc()){
-        $town_array[] = $row;
+        $gameList[] = $row;
     }
-    echo json_encode($town_array);
 }
 $stmt->close();
 $conn->close();
+echo json_encode($gameList);

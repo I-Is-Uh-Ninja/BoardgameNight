@@ -23,8 +23,8 @@ $result = $stmt->get_result();
 $success = false;
 $message = null;
 if($result->num_rows>0){
-    $row = $result->fetch_assoc();
-    if($row["password"] == $userpass){
+    $row = $result->fetch_assoc();//
+    if(password_verify($userpass, $row["password"])){
         setcookie("user", $row["user_id"], time() + (86400), "/");
         setcookie("level", $row["level_id"], time() + (86400), "/");
         $success = true;

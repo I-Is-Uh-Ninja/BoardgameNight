@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Send mail</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src='../js/jquery-3.1.0.js'></script>
+        <script src='../js/jquery.validate.min.js'></script>
+        <script src="../js/sendMail.js"></script>
+    </head>
+    <body>
+        <div>
+            <h1>Fill in the fields</h1>
+            <h4>Mailing list</h4>
+            <select id="mailingList">
+            </select>
+            <h4>Subject</h4>
+            <input type="text" id="subject" value=""/>
+            <h4>Text</h4>
+            <textarea id="mailBody" rows="20" cols="100"></textarea>
+            <br><input type="button" id="sendMail" value="Send mail"/>
+        </div>
+    </body>
+</html>
