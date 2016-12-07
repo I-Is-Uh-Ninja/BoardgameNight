@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    if(getCookie("user") == ""){
+        window.location.href = "login.html";
+    }
     $("#addUserBtn").click(function(event){
         //event.preventDefault();
         alert("Valid?: " + $("#addUserForm").valid());

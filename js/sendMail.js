@@ -1,5 +1,7 @@
 var url = "http://localhost:800/BoardgameNight/php/";
 var eventArray = [];
+var userIds = [];
+var users = [];
 
 function getCookie(cname) {
     var name = cname + "=";
@@ -17,15 +19,52 @@ function getCookie(cname) {
 }
 
 $(document).ready(function(){
-    addEventsToSelect();
-    getEventsByHost();
+    if(getCookie("user") == ""){
+        window.location.href = "login.html";
+    }
+    getAllUserIds();
+});
+
+$(document).on("click", "#sendMail", function(){
+    if($("input[name='mailingList']:checked").val() == "custom"){
+        $.each($("#selectUsers :checked"), function(index, checkbox){
+            userIds[index] = $(this).val();
+        });
+    }
+    sendMail();
+});
+
+$(document).on("change", "input[name='mailingList']", function(event){
+    $("#listOfUsers").empty();
+    var buttonVal = $("input[name='mailingList']:checked").val();
+    switch(buttonVal){
+        case "all":
+            getAllUserIds();
+            $.each(users, function(index, user){
+                userIds[index] = user.user_id;
+            });
+            break;
+        case "custom":
+            getAllUserIds();
+            addUserSelection();
+            break;
+        case "event":
+            getEventsByHost();
+            break;
+    }
+});
+
+$(document).on("change", "#selectEvent", function(event){
+    var eventId = $("#selectEvent :selected").val();
+    getPlayerIds(eventArray[eventId]);
 });
 
 function getEventsByHost(){
+    $("#listOfUsers").html("<select id='selectUsers'></select>")
     $.get(url + "getUserEvents.php", function(data){
-        eventArray = data[1];
-        $.each(data[1], function(index, event){
-            $("#mailingList").append("<option value='"+ index +"'>"+event.title+"</option>");
+        eventArray = data.hostList;
+        $.each(eventArray, function(index, event){
+            $("#selectUsers").append("<option value='"+ index +"'>"+event.title+"</option>");
         });
     }, "json");
 }
@@ -33,38 +72,49 @@ function getEventsByHost(){
 function addEventsToSelect(){
     var level = getCookie("level");
     if(level==1 || level==2){
-        $("#mailingList").append("<option value='-1' selected>All users</option>");
+        $("#mailingList").append("<option value='0' selected>All users</option>");
     }
+}
+
+function addUserSelection(){
+    $("#listOfUsers").html('<form id="selectUsers"></form>');
+    $.each(users, function(index, user){
+        $("#selectUsers").append("<input type='checkbox' value='" + user.user_id + "'/>" + user.username);
+    });
+    $("#listOfUsers").append('<br><input type="checkbox" id="saveCustomList" value="save"/>Save custom list?');
 }
 
 function getAllUserIds(){
-    var userIds = [];
-    $.get(url + "getUser.php", function(data){
-        $.each(data, function(index, user){
-            userIds[index] = user.user_id;
-        });
-    },"json");
-    return userIds;
+    $.ajax({
+        type: "GET",
+        url: url + "getUser.php",
+        dataType: "json",
+        success: function(data){
+            $.each(data, function(index, user){
+                users[index] = user;
+            });
+        }
+    });
 }
 
 function getPlayerIds(eventId){
-    var playerIds = [];
-    $.get(url + "getEvent.php", {eventId: eventId}, function(data){
-        var playerList = data[1];
-        $.each(playerList, function(index, user){
-            playerIds[index] = user.user_id;
-        });
+    $.ajax({
+        type: "GET",
+        url: url + "getEvent.php",
+        dataType: "json",
+        data: {eventId: eventId},
+        success: function(data){
+            $.each(data, function(index, user){
+                userIds[index] = user.user_id;
+            });
+        }
     });
-    return playerIds;
 }
 
 function sendMail(){
-    var selectId = $("#mailingList :selected").val();
-    var userIds = [];
-    if(selectId < 0){
-        userIds = getAllUserIds();
-    }
-    else{
-        var eventId = eventArray[selectId].event_id;
-    }
+    var subject = $("#subject").val();
+    var body = $("#mailBody").val();
+    $.post("../php/sendMail.php",{user_ids: userIds, subject: subject, body: body},function(data){
+        window.location.href = "index.html";
+    }, "json");
 }

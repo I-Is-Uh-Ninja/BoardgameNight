@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Add a game</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../js/jquery-3.1.0.js"></script>
+        <script src="../js/jquery.validate.min.js"></script>
+        <script src="../js/generic_functions.js"></script>
+        <script src="../js/addGame.js"></script>
+    </head>
+    <body>
+        <div>
+            <p id="error"></p>
+            <form id="addGameForm">
+                <table>
+                    <tr>
+                        <td>Title <span style="color:red">*</span></td>
+                        <td><input type="text" id="title" name="title" value="" required minlength="3" maxlength="50"/></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td><textarea id="descr" name="description" cols="20" rows="4" maxlength="80"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Image link</td>
+                        <td><input type="url" id="image" name="image" maxlength="80"/></td>
+                    </tr>
+                    <tr>
+                        <td>Link to game overview</td>
+                        <td><input type="url" id="link" name="link" maxlength="80"/></td>
+                    </tr>
+                    <tr>
+                        <td></td><td><input type="button" id="addGameBtn" value="Add game"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

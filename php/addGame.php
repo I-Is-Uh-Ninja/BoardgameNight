@@ -10,17 +10,14 @@ $conn = new mysqli($servername, $username, $password, $dbname, $port);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-$sql = "UPDATE event SET title=?, place=?, date=?, deadline=?, place_id=?, notes=? WHERE event_id=?";
+$sql = "INSERT INTO game (title,description,image,link) VALUES (?,?,?,?);";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ssssisi", $title, $place, $date, $deadline, $townId, $notes, $eventId);
+$stmt->bind_param("ssss", $title, $descr, $image, $link);
+
 $title = $_POST["title"];
-$date = date("Y-m-d H:i:s", strtotime($_POST["date"]));
-$deadline = date("Y-m-d H:i:s", strtotime($_POST["deadline"]));
-$townId = $_POST["place_id"] == 0 ? null : $_POST["place_id"];
-$place = $_POST["place"] == "" ? null : $_POST["place"];
-$notes = $_POST["notes"] == "" ? null : $_POST["notes"];
-$eventId = $_POST["event_id"];
+$descr = $_POST["description"] == "" ? null : $_POST["description"];
+$image = $_POST["image"] == "" ? null : $_POST["image"];
+$link = $_POST["link"] == "" ? null : $_POST["link"];
 
 $response = array();
 $response["success"] = $stmt->execute();

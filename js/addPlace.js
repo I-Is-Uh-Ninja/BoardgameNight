@@ -2,6 +2,9 @@ var url = "http://localhost:800/BoardgameNight/php/";
 var message = "";
 
 $(document).ready(function(){
+    if(getCookie("user") == ""){
+        window.location.href = "login.html";
+    }
     $("#addPlaceBtn").click(function(){
         if($("#addPlaceForm").valid()){
             if(postForm()){
@@ -16,8 +19,8 @@ $(document).ready(function(){
 
 function postForm(){
     $.post(url + "addPlace.php", formToJs(), function(data){
-        message = data.general_message;
-        return data.success;
+        message = data[0].general_message;
+        return data[0].success;
     }, "json");
 }
 

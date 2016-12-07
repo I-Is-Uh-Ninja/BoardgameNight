@@ -11,7 +11,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $userId = $_COOKIE["user"];
-$sql = "SELECT uhp.*, t.*  FROM user_has_place uhp INNER JOIN place pl ON uhp.place_id = pl.place_id WHERE uhp.user_id=?";
+$sql = "SELECT uhp.*, pl.*  FROM user_has_place uhp INNER JOIN place pl ON uhp.place_id = pl.place_id WHERE uhp.user_id=?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $userId);
 $stmt->execute();

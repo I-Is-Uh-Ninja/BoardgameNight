@@ -23,19 +23,20 @@ $stmt->bind_param("i", $playerId);
 //find host email first
 $playerId = $_COOKIE["user"];
 $stmt->execute();
-$hostEmail = $stmt->get_result();
+$hostEmail = $stmt->get_result()->fetch_object()->email;
 
 $emailList = array();
-$playerList = $_POST["player_ids"];
+$playerList = $_POST["user_ids"];
 for ($index = 0;$index < count($playerList);$index++) {
     $playerId = $playerList[$index];
     $stmt->execute();
-    $emailList[] = $stmt->get_result();
+    $result = $stmt->get_result();
+    $emailList[] = $result->fetch_object()->email;
 }
 $stmt->close();
 $conn->close();
 
-$password = $_POST["password"];
+//$password = $_GET["password"];
 $subject = $_POST["subject"];
 $body = $_POST["body"];
 
